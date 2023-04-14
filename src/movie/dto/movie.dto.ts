@@ -1,4 +1,5 @@
 export class MovieDto {
+  movieId: number;
   movieName: string;
   releaseData: number;
   movieTitle: string;

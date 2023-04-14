@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieRepository } from './movie.repository';
 import { MyPaginationQuery } from 'src/base/pagination-query';
@@ -15,7 +19,7 @@ export class MovieService {
   ) {}
 
   /**
-   * 전체 조회
+   * 영화 전체 조회
    *
    * @param options query string parameter
    * @returns
@@ -28,6 +32,14 @@ export class MovieService {
   }
 
   async createMovie(createMovieDto: MovieDto): Promise<Movie> {
+    const movie = await this.movieRepository.findOneBymovieId(
+      createMovieDto.movieId,
+    );
+
+    if (movie !== null) {
+      throw new BadRequestException(MOVIE_EXCEPTION.MOVIE_EXIST);
+    }
+
     return this.movieRepository.createMovie(createMovieDto);
   }
 }
