@@ -32,6 +32,22 @@ export class MovieService {
   }
 
   /**
+   * 영화 상세 조회
+   *
+   * @param movieId 특정 영화 조회할 고유값
+   * @returns
+   */
+  async findOneByMovieId(movieId: number): Promise<Movie> {
+    const movie = await this.movieRepository.findOneBymovieId(movieId);
+
+    if (!movie) {
+      throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NOT_FOUND);
+    }
+
+    return movie;
+  }
+
+  /**
    * 영화 생성
    *
    * @param createMovieDto 영화 생성 DTO
@@ -57,15 +73,23 @@ export class MovieService {
    * @returns
    */
   async updateMovie(movieId: number, changeMovieDto: MovieDto) {
-    const movie = await this.movieRepository.findOneBymovieId(movieId);
-
-    if (!movie) {
-      throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NOT_FOUND);
-    }
+    const movie = await this.findOneByMovieId(movieId);
 
     return await this.movieRepository.updateMovie(
       movie.movieId,
       changeMovieDto,
     );
+  }
+
+  /**
+   * 특정 영화 삭제
+   *
+   * @param movieId 삭제할 영화의 고유값
+   * @returns
+   */
+  async deleteMovie(movieId: number) {
+    const movie = await this.findOneByMovieId(movieId);
+
+    return await this.movieRepository.deleteMovie(movie.movieId);
   }
 }
