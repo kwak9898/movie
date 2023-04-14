@@ -48,4 +48,24 @@ export class MovieService {
 
     return this.movieRepository.createMovie(createMovieDto);
   }
+
+  /**
+   * 특정 영화 수정
+   *
+   * @param movieId 수정할 영화의 고유값
+   * @param changeMovieDto 수정할 영화의 데이터 DTO
+   * @returns
+   */
+  async updateMovie(movieId: number, changeMovieDto: MovieDto) {
+    const movie = await this.movieRepository.findOneBymovieId(movieId);
+
+    if (!movie) {
+      throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NOT_FOUND);
+    }
+
+    return await this.movieRepository.updateMovie(
+      movie.movieId,
+      changeMovieDto,
+    );
+  }
 }
