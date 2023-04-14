@@ -31,6 +31,12 @@ export class MovieService {
     return paginate(await this.movieRepository, options);
   }
 
+  /**
+   * 영화 생성
+   *
+   * @param createMovieDto 영화 생성 DTO
+   * @returns
+   */
   async createMovie(createMovieDto: MovieDto): Promise<Movie> {
     const movie = await this.movieRepository.findOneBymovieId(
       createMovieDto.movieId,
