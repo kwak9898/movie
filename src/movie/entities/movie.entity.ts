@@ -34,12 +34,10 @@ export class Movie extends BaseEntity {
   preview: string;
 
   @Column('character varying', {
-    array: true,
     name: 'actors',
     comment: '영화 출연진',
-    default: {},
   })
-  actors: string[];
+  actors: string;
 
   @Column('character varying', {
     name: 'synopsis',
@@ -48,12 +46,10 @@ export class Movie extends BaseEntity {
   synopsis: string;
 
   @Column('character varying', {
-    array: true,
     name: 'movie_genre',
     comment: '영화 장르',
-    default: {},
   })
-  movieGenre: string[];
+  movieGenre: string;
 
   @Column('decimal', {
     name: 'rating',
