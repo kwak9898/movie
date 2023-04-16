@@ -1,5 +1,5 @@
-import { IPaginationMeta } from "nestjs-typeorm-paginate/dist/interfaces";
-import { ApiProperty } from "@nestjs/swagger";
+import { IPaginationMeta } from 'nestjs-typeorm-paginate/dist/interfaces';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class MyPagination<PaginationObject> {
   @ApiProperty({ isArray: true })
@@ -12,3 +12,4 @@ export class MyPagination<PaginationObject> {
     this.items = items;
     this.meta = meta;
   }
+}
