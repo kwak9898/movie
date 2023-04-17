@@ -1,4 +1,4 @@
-import { BaseEntity } from 'src/base/base.entity';
+import { BaseEntity } from '../../base/base.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('movie', { schema: 'public' })

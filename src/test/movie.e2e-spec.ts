@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common';
-import { MovieService } from 'src/movie/movie.service';
-import { RequestHelper } from 'src/utils/test.util';
+import { MovieService } from '../movie/movie.service';
+import { RequestHelper } from '../utils/test.util';
 import { MovieFactory } from './factory/movie.factory';
 import { DataSource } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import { DatabaseModule } from 'src/database/database.module';
+import { AppModule } from '../app.module';
+import { DatabaseModule } from '../database/database.module';
 
 describe('영화 조회/생성/수정/삭제 테스트', () => {
   let app: INestApplication;
@@ -38,5 +38,21 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
 
     requestHelper = new RequestHelper(app);
     await app.init();
+  });
+
+  describe('영화 전체 조회', () => {
+    it('성공', async () => {
+      // Given
+      await movieFactory.createMovieList();
+
+      // When
+      const response = await requestHelper.get(
+        `${movieDomain}?page=1&limit=10`,
+      );
+
+      // Then
+
+      console.log(response);
+    });
   });
 });
