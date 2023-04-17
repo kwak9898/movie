@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Movie } from 'src/movie/entities/movie.entity';
-import { MovieRepository } from 'src/movie/movie.repository';
+import { Movie } from '../..//movie/entities/movie.entity';
+import { MovieRepository } from '../../movie/movie.repository';
 import { faker } from '@faker-js/faker';
 
 @Injectable()
