@@ -10,13 +10,12 @@ import {
   Query,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
-import { MyPagination } from 'src/base/pagination-resoponse';
-import { MyPaginationQuery } from 'src/base/pagination-query';
+import { MyPaginationQuery } from '..//base/pagination-query';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ApiPaginatedResponse } from 'src/dacorators/paginate.dacorator';
+import { ApiPaginatedResponse } from '..//dacorators/paginate.dacorator';
 
 @Controller('movie')
 @ApiTags('MOVIE')

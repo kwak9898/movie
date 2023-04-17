@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieRepository } from './movie.repository';
-import { MyPaginationQuery } from 'src/base/pagination-query';
+import { MyPaginationQuery } from '../base/pagination-query';
 import { Movie } from './entities/movie.entity';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
-import { MOVIE_EXCEPTION } from 'src/exception/error-code';
+import { MOVIE_EXCEPTION } from '../exception/error-code';
 import { MovieDto } from './dto/movie.dto';
 
 @Injectable()
