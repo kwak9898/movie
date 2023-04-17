@@ -64,8 +64,7 @@ export class MovieFactory {
     return createMovie;
   }
 
-  async deleteMovie() {
-    const createMovies = await this.createMovieList();
-    return await this.movieRepository.delete(createMovies);
+  async clearMovieData() {
+    return await this.movieRepository.clear();
   }
 }
