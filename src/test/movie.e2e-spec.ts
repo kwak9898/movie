@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { HttpCode, HttpStatus, INestApplication } from '@nestjs/common';
 import { MovieService } from '../movie/movie.service';
 import { RequestHelper } from '../utils/test.util';
 import { MovieFactory } from './factory/movie.factory';
@@ -6,6 +6,7 @@ import { DataSource } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../app.module';
 import { DatabaseModule } from '../database/database.module';
+import { MovieRepository } from '../movie/movie.repository';
 
 describe('영화 조회/생성/수정/삭제 테스트', () => {
   let app: INestApplication;
@@ -23,7 +24,7 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-      providers: [MovieService, DatabaseModule, MovieFactory],
+      providers: [MovieService, DatabaseModule, MovieFactory, MovieRepository],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -51,8 +52,15 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       );
 
       // Then
+      const meta = response.body.meta;
 
-      console.log(response);
+      expect(response.statusCode).toBe(HttpStatus.OK);
+      expect(meta.totalItems).toBe(21);
+      expect(meta.itemCount).toBe(10);
+      expect(meta.totalPages).toBe(3);
+      expect(meta.itemsPerPage).toBe(10);
+
+      await movieFactory.deleteMovie();
     });
   });
 });

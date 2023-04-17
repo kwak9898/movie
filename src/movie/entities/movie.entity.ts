@@ -39,7 +39,7 @@ export class Movie extends BaseEntity {
   })
   actors: string;
 
-  @Column('character varying', {
+  @Column('text', {
     name: 'synopsis',
     comment: '시놉시스',
   })
@@ -51,13 +51,13 @@ export class Movie extends BaseEntity {
   })
   movieGenre: string;
 
-  @Column('decimal', {
+  @Column('character varying', {
     name: 'rating',
     comment: '평점',
   })
   rating: string;
 
-  @Column('character', {
+  @Column('character varying', {
     name: 'playing_time',
     comment: '재생 시간',
   })
