@@ -4,9 +4,9 @@ export class MovieDto {
   releaseData: number;
   movieTitle: string;
   preview: string;
-  actors: string[];
+  actors: string;
   synopsis: string;
-  movieGenre: string[];
+  movieGenre: string;
   rating: string;
   playingTime: string;
   director: string;
