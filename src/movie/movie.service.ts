@@ -29,7 +29,7 @@ export class MovieService {
       .items;
 
     if (movieItems.length === 0) {
-      throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NOT_FOUND);
+      throw new NotFoundException(MOVIE_EXCEPTION.MOVIES_NOT_FOUND);
     }
     return paginate(await this.movieRepository, options);
   }
