@@ -27,6 +27,7 @@ export class MovieService {
   async getAllMovie(options: MyPaginationQuery): Promise<Pagination<Movie>> {
     const movieItems = (await paginate(await this.movieRepository, options))
       .items;
+
     if (movieItems.length === 0) {
       throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NOT_FOUND);
     }
