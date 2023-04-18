@@ -8,6 +8,7 @@ import { AppModule } from '../app.module';
 import { DatabaseModule } from '../database/database.module';
 import { MovieRepository } from '../movie/movie.repository';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
+import { Movie } from '../movie/entities/movie.entity';
 
 describe('영화 조회/생성/수정/삭제 테스트', () => {
   let app: INestApplication;
@@ -17,7 +18,7 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
   let movieFactory: MovieFactory;
   let dataSource: DataSource;
 
-  let movie;
+  let movie: Movie;
   let movieId: number | null;
 
   const movieDomain = '/movie';
@@ -80,6 +81,47 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       expect(body.code).toBe(MOVIE_EXCEPTION.MOVIES_NOT_FOUND.code);
       expect(body.status).toBe(MOVIE_EXCEPTION.MOVIES_NOT_FOUND.status);
       expect(body.message).toBe(MOVIE_EXCEPTION.MOVIES_NOT_FOUND.message);
+    });
+  });
+
+  describe('특정 영화 조회', () => {
+    it('성공', async () => {
+      // Given
+      movie = await movieFactory.createBaseMovie();
+      movieId = movie.movieId;
+
+      // When
+      const response = await requestHelper.get(`${movieDomain}/${movieId}`);
+
+      // Then
+      const body = response.body;
+
+      expect(body.movieId).toBe(movieId);
+      expect(body.movieName).toBe(movie.movieName);
+      expect(body.releaseData).toBe(movie.releaseData);
+      expect(body.movieTitle).toBe(movie.movieTitle);
+      expect(body.preview).toBe(movie.preview);
+      expect(body.actors).toBe(movie.actors);
+      expect(body.synopsis).toBe(movie.synopsis);
+      expect(body.movieGenre).toBe(movie.movieGenre);
+      expect(body.rating).toBe(movie.rating);
+      expect(body.playingTime).toBe(movie.playingTime);
+      expect(body.director).toBe(movie.director);
+
+      await movieFactory.clearMovieData();
+    });
+
+    it('userId가 없을 경우 실패', async () => {
+      // When
+      const response = await requestHelper.get(`${movieDomain}/${movieId}`);
+
+      // Then
+      const body = response.body;
+
+      expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+      expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.code);
+      expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.status);
+      expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.message);
     });
   });
 });
