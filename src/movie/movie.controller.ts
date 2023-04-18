@@ -41,7 +41,7 @@ export class MovieController {
   @HttpCode(200)
   @Get(':movieId')
   async findOneByMovie(@Param('movieId') movieId: number): Promise<Movie> {
-    return await this.findOneByMovie(movieId);
+    return await this.movieService.findOneByMovieId(movieId);
   }
 
   @ApiOkResponse({ type: Movie })
