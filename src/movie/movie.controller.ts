@@ -52,7 +52,7 @@ export class MovieController {
   @HttpCode(201)
   @Post('')
   async createMovie(@Body() createMovie: CreateMovieDto): Promise<Movie> {
-    return await this.createMovie(createMovie);
+    return await this.movieService.createMovie(createMovie);
   }
 
   @Put(':movieId')
