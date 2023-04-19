@@ -9,6 +9,7 @@ import { DatabaseModule } from '../database/database.module';
 import { MovieRepository } from '../movie/movie.repository';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
 import { Movie } from '../movie/entities/movie.entity';
+import { CreateMovieDto } from '../movie/dto/create-movie.dto';
 
 describe('영화 조회/생성/수정/삭제 테스트', () => {
   let app: INestApplication;
@@ -122,6 +123,44 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.code);
       expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.status);
       expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.message);
+    });
+  });
+
+  describe('영화 생성 테스트', () => {
+    it('성공', async () => {
+      // Given
+      const dto = new CreateMovieDto();
+
+      dto.movieName = '스파이더멘 홈 커밍';
+      dto.releaseData = 2022;
+      dto.movieTitle = '홈커밍';
+      dto.preview = 'www.youtube.com';
+      dto.actors = '톰 홀랜드';
+      dto.synopsis = '집이다.';
+      dto.movieGenre = '액션, 판타지';
+      dto.rating = '8.2';
+      dto.playingTime = '3시간 안됨';
+      dto.director = '나';
+
+      // When
+      const response = await requestHelper.post(`${movieDomain}`, dto);
+
+      // Then
+      const body = response.body;
+
+      expect(response.statusCode).toBe(HttpStatus.CREATED);
+      expect(body.movieName).toBe(dto.movieName);
+      expect(body.releaseData).toBe(dto.releaseData);
+      expect(body.movieTitle).toBe(dto.movieTitle);
+      expect(body.preview).toBe(dto.preview);
+      expect(body.actors).toBe(dto.actors);
+      expect(body.synopsis).toBe(dto.synopsis);
+      expect(body.movieGenre).toBe(dto.movieGenre);
+      expect(body.rating).toBe(dto.rating);
+      expect(body.playingTime).toBe(dto.playingTime);
+      expect(body.director).toBe(dto.director);
+
+      await movieFactory.clearMovieData();
     });
   });
 });
