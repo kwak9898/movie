@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MovieRepository extends Repository<Movie> {
@@ -15,7 +16,7 @@ export class MovieRepository extends Repository<Movie> {
    * @param createMovieDto  생성 관련 dto
    * @returns
    */
-  async createMovie(createMovieDto: MovieDto): Promise<Movie> {
+  async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
     const {
       movieName,
       releaseData,

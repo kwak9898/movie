@@ -10,6 +10,7 @@ import { Movie } from './entities/movie.entity';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
 import { MovieDto } from './dto/movie.dto';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
 export class MovieService {
@@ -56,7 +57,7 @@ export class MovieService {
    * @param createMovieDto 영화 생성 DTO
    * @returns
    */
-  async createMovie(createMovieDto: MovieDto): Promise<Movie> {
+  async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
     const movie = await this.movieRepository.findOneBymovieId(
       createMovieDto.movieId,
     );

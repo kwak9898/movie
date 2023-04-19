@@ -16,6 +16,7 @@ import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiPaginatedResponse } from '..//dacorators/paginate.dacorator';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller('movie')
 @ApiTags('MOVIE')
@@ -50,7 +51,7 @@ export class MovieController {
   })
   @HttpCode(201)
   @Post('')
-  async createMovie(@Body() createMovie: MovieDto): Promise<Movie> {
+  async createMovie(@Body() createMovie: CreateMovieDto): Promise<Movie> {
     return await this.createMovie(createMovie);
   }
 
