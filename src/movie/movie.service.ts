@@ -9,7 +9,7 @@ import { MyPaginationQuery } from '../base/pagination-query';
 import { Movie } from './entities/movie.entity';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
-import { MovieDto } from './dto/movie.dto';
+import { ChangeMovieDto } from './dto/change-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Injectable()
@@ -76,7 +76,10 @@ export class MovieService {
    * @param changeMovieDto 수정할 영화의 데이터 DTO
    * @returns
    */
-  async updateMovie(movieId: number, changeMovieDto: MovieDto) {
+  async updateMovie(
+    movieId: number,
+    changeMovieDto: ChangeMovieDto,
+  ): Promise<Movie> {
     const movie = await this.findOneByMovieId(movieId);
 
     return await this.movieRepository.updateMovie(

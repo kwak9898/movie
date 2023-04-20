@@ -13,7 +13,7 @@ import { MovieService } from './movie.service';
 import { MyPaginationQuery } from '..//base/pagination-query';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { Movie } from './entities/movie.entity';
-import { MovieDto } from './dto/movie.dto';
+import { ChangeMovieDto } from './dto/change-movie.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiPaginatedResponse } from '..//dacorators/paginate.dacorator';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -63,8 +63,8 @@ export class MovieController {
   @Put(':movieId')
   async updateMovie(
     @Param(':movieId') movieId: number,
-    changeMovieDto: MovieDto,
-  ) {
+    @Body() changeMovieDto: ChangeMovieDto,
+  ): Promise<Movie> {
     return await this.movieService.updateMovie(movieId, changeMovieDto);
   }
 

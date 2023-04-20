@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
-import { MovieDto } from './dto/movie.dto';
+import { ChangeMovieDto } from './dto/change-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
 
@@ -69,7 +69,10 @@ export class MovieRepository extends Repository<Movie> {
    * @param changeMovieDto  수정할 특정 영화 Coulmn DTO
    * @returns
    */
-  async updateMovie(movieId: number, changeMovieDto: MovieDto) {
+  async updateMovie(
+    movieId: number,
+    changeMovieDto: ChangeMovieDto,
+  ): Promise<Movie> {
     const {
       movieName,
       releaseData,
@@ -83,18 +86,19 @@ export class MovieRepository extends Repository<Movie> {
       director,
     } = changeMovieDto;
 
-    return await this.update(movieId, {
-      movieName,
-      releaseData,
-      movieTitle,
-      preview,
-      actors,
-      synopsis,
-      movieGenre,
-      rating,
-      playingTime,
-      director,
-    });
+    const movie = await this.findOneBymovieId(movieId);
+    movie.movieName = movieName;
+    movie.releaseData = releaseData;
+    movie.movieTitle = movieTitle;
+    movie.preview = preview;
+    movie.actors = actors;
+    movie.synopsis = synopsis;
+    movie.movieGenre = movieGenre;
+    movie.rating = rating;
+    movie.playingTime = playingTime;
+    movie.director = director;
+
+    return await this.save(movie);
   }
 
   /**
