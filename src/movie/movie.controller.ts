@@ -55,15 +55,22 @@ export class MovieController {
     return await this.movieService.createMovie(createMovie);
   }
 
-  @Put(':movieId')
+  @ApiOkResponse({ type: Movie })
+  @ApiOperation({
+    summary: '영화 정보 수정',
+  })
   @HttpCode(200)
+  @Put(':movieId')
   async updateMovie(
     @Param(':movieId') movieId: number,
     changeMovieDto: MovieDto,
   ) {
-    return await this.updateMovie(movieId, changeMovieDto);
+    return await this.movieService.updateMovie(movieId, changeMovieDto);
   }
 
+  @ApiOperation({
+    summary: '영화 삭제',
+  })
   @Delete('movieId')
   @HttpCode(200)
   async deleteMovie(@Param(':movieId') movieId: number) {
