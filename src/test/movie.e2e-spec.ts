@@ -10,6 +10,7 @@ import { MovieRepository } from '../movie/movie.repository';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
 import { Movie } from '../movie/entities/movie.entity';
 import { CreateMovieDto } from '../movie/dto/create-movie.dto';
+import { ChangeMovieDto } from '../movie/dto/change-movie.dto';
 
 describe('영화 조회/생성/수정/삭제 테스트', () => {
   let app: INestApplication;
@@ -112,7 +113,7 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       await movieFactory.clearMovieData();
     });
 
-    it('userId가 없을 경우 실패', async () => {
+    it('movieId가 없을 경우 실패', async () => {
       // When
       const response = await requestHelper.get(`${movieDomain}/${movieId}`);
 
@@ -174,6 +175,47 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.code);
       expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.status);
       expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.message);
+    });
+  });
+
+  describe('특정 영화 정보 수정', () => {
+    it('성공', async () => {
+      // Given
+      movie = await movieFactory.createBaseMovie();
+      movieId = movie.movieId;
+      const dto = new ChangeMovieDto();
+      dto.movieName = '범죄도시2';
+      dto.actors = '마동석, 손석구';
+      dto.director = '감독';
+
+      // When
+      const response = await requestHelper.put(
+        `${movieDomain}/${movieId}`,
+        dto,
+      );
+
+      // Then
+      const body = response.body;
+
+      expect(body.movieId).toBe(movie.movieId);
+      expect(body.movieId).toBe(movieId);
+      expect(body.movieName).toBe(dto.movieName);
+      expect(body.actors).toBe(dto.actors);
+      expect(body.director).toBe(dto.director);
+
+      await movieFactory.clearMovieData();
+    });
+
+    it('movieId가 없을 경우 특정 영화 정보 수정 실패', async () => {
+      // When
+      const response = await requestHelper.put(`${movieDomain}/${movieId}`);
+
+      // Then
+      const body = response.body;
+
+      expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.code);
+      expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.status);
+      expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.message);
     });
   });
 });
