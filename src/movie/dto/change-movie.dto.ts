@@ -1,4 +1,4 @@
-export class MovieDto {
+export class ChangeMovieDto {
   movieId: number;
   movieName: string;
   releaseData: number;
