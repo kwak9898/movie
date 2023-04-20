@@ -19,9 +19,9 @@ export class RequestHelper {
       .set({ Authorization: `Bearer ${this.token}` });
   }
 
-  async patch(url: string, body?: any): Promise<Test> {
+  async put(url: string, body?: any): Promise<Test> {
     return request(this.app.getHttpServer())
-      .patch(url)
+      .put(url)
       .send(body)
       .set({ Authorization: `Bearer ${this.token}` });
   }
