@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Movie } from './entities/movie.entity';
 import { MovieDto } from './dto/movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
+import { MOVIE_EXCEPTION } from '../exception/error-code';
 
 @Injectable()
 export class MovieRepository extends Repository<Movie> {
@@ -17,33 +18,39 @@ export class MovieRepository extends Repository<Movie> {
    * @returns
    */
   async createMovie(createMovieDto: CreateMovieDto): Promise<Movie> {
-    const {
-      movieName,
-      releaseData,
-      movieTitle,
-      preview,
-      actors,
-      synopsis,
-      movieGenre,
-      rating,
-      playingTime,
-      director,
-    } = createMovieDto;
+    try {
+      const {
+        movieName,
+        releaseData,
+        movieTitle,
+        preview,
+        actors,
+        synopsis,
+        movieGenre,
+        rating,
+        playingTime,
+        director,
+      } = createMovieDto;
 
-    const movie = await this.create({
-      movieName,
-      releaseData,
-      movieTitle,
-      preview,
-      actors,
-      synopsis,
-      movieGenre,
-      rating,
-      playingTime,
-      director,
-    });
+      const movie = await this.create({
+        movieName,
+        releaseData,
+        movieTitle,
+        preview,
+        actors,
+        synopsis,
+        movieGenre,
+        rating,
+        playingTime,
+        director,
+      });
 
-    return this.save(movie);
+      return await this.save(movie);
+    } catch (err) {
+      if (err.code === '23502') {
+        throw new BadRequestException(MOVIE_EXCEPTION.MOVIE_NOT_CREATE);
+      }
+    }
   }
 
   /**
