@@ -162,5 +162,18 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
 
       await movieFactory.clearMovieData();
     });
+
+    it('정보들이 없을 시 실패', async () => {
+      // When
+      const response = await requestHelper.post(`${movieDomain}`);
+
+      // Then
+      const body = response.body;
+
+      expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
+      expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.code);
+      expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.status);
+      expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_CREATE.message);
+    });
   });
 });
