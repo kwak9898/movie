@@ -218,4 +218,31 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
       expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.message);
     });
   });
+
+  describe('특정 영화 삭제', () => {
+    it('성공', async () => {
+      // Given
+      movie = await movieFactory.createBaseMovie();
+      movieId = movie.movieId;
+
+      // When
+      const response = await requestHelper.delete(`${movieDomain}/${movieId}`);
+
+      // Then
+      expect(response.statusCode).toBe(HttpStatus.OK);
+    });
+
+    it('movieId가 없을 시 삭제 실패', async () => {
+      // When
+      const response = await requestHelper.delete(`${movieDomain}/${movieId}`);
+
+      // Then
+      const body = response.body;
+
+      expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+      expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.code);
+      expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.status);
+      expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NOT_FOUND.message);
+    });
+  });
 });
