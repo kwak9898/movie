@@ -71,7 +71,7 @@ export class MovieController {
   @ApiOperation({
     summary: '영화 삭제',
   })
-  @Delete('movieId')
+  @Delete(':movieId')
   @HttpCode(200)
   async deleteMovie(@Param(':movieId') movieId: number) {
     return await this.deleteMovie(movieId);
