@@ -74,6 +74,6 @@ export class MovieController {
   @Delete(':movieId')
   @HttpCode(200)
   async deleteMovie(@Param(':movieId') movieId: number) {
-    return await this.deleteMovie(movieId);
+    return await this.movieService.deleteMovie(movieId);
   }
 }
