@@ -1,8 +1,8 @@
 export const MOVIE_EXCEPTION = {
-  MOVIES_NOT_FOUND: {
-    code: 'MOVIES_NOT_FOUND',
+  MOVIE_NAME_NOT_FOUND: {
+    code: 'MOVIE_NAME_NOT_FOUND',
     status: 404,
-    message: '존재하는 영화 정보들을 불러올 수 없습니다.',
+    message: '찾고자하는 영화를 가져올 수 없습니다.',
   },
   MOVIE_NOT_FOUND: {
     code: 'MOVIE_NOT_FOUND',
