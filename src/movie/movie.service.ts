@@ -42,7 +42,13 @@ export class MovieService {
 
     query.getRawMany();
 
-    return await paginate<Movie>(query, options);
+    const pagination = await paginate<Movie>(query, options);
+
+    if (pagination.items.length === 0) {
+      throw new NotFoundException(MOVIE_EXCEPTION.MOVIE_NAME_NOT_FOUND);
+    }
+
+    return pagination;
   }
 
   /**
