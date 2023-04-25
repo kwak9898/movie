@@ -10,7 +10,7 @@ export class MovieFactory {
   async createBaseMovie(): Promise<Movie> {
     const movie = new Movie();
 
-    movie.movieName = faker.music.songName();
+    movie.movieName = 'goodMovie';
     movie.releaseData = 2013;
     movie.movieTitle = faker.fake.name;
     movie.preview = faker.image.imageUrl();

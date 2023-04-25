@@ -7,7 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { MovieRepository } from './movie.repository';
 import { MyPaginationQuery } from '../base/pagination-query';
 import { Movie } from './entities/movie.entity';
-import { Pagination, paginate } from 'nestjs-typeorm-paginate';
+import {
+  Pagination,
+  paginate,
+  paginateRawAndEntities,
+} from 'nestjs-typeorm-paginate';
 import { MOVIE_EXCEPTION } from '../exception/error-code';
 import { ChangeMovieDto } from './dto/change-movie.dto';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -23,16 +27,22 @@ export class MovieService {
    * 영화 전체 조회
    *
    * @param options query string parameter
+   * @param movieTitle 영화 이름 검색
    * @returns
    */
-  async getAllMovie(options: MyPaginationQuery): Promise<Pagination<Movie>> {
-    const movieItems = (await paginate(await this.movieRepository, options))
-      .items;
+  async getAllMovie(
+    options: MyPaginationQuery,
+    movieName?: string,
+  ): Promise<Pagination<Movie>> {
+    const query = this.movieRepository.createQueryBuilder('movie');
 
-    if (movieItems.length === 0) {
-      throw new NotFoundException(MOVIE_EXCEPTION.MOVIES_NOT_FOUND);
+    if (movieName) {
+      query.where('movie.movieName = :movieName', { movieName: movieName });
     }
-    return paginate(await this.movieRepository, options);
+
+    query.getRawMany();
+
+    return await paginate<Movie>(query, options);
   }
 
   /**
