@@ -16,10 +16,7 @@ import { Movie } from '../movie/entities/movie.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [Movie],
-        synchronize: configService.get('NODE_ENV') !== 'production',
-        dropSchema:
-          configService.get('NODE_ENV') === 'test' ||
-          configService.get('NODE_ENV') === 'ci',
+        synchronize: false,
       }),
     }),
   ],
