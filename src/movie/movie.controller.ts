@@ -31,9 +31,9 @@ export class MovieController {
   @HttpCode(200)
   async getAllByMovie(
     @Query() query: MyPaginationQuery,
-    @Query() movieTitle?: string,
+    @Query() movieName?: string,
   ): Promise<Pagination<Movie>> {
-    return await this.movieService.getAllMovie(query, movieTitle);
+    return await this.movieService.getAllMovie(query, movieName);
   }
 
   @ApiOkResponse({ type: Movie })
