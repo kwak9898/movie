@@ -57,7 +57,7 @@ export class MovieFactory {
     const movies = [];
     const createMovie = await this.movieRepository.save(movie);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 9; i++) {
       movies.push(await this.createTestMovie(createMovie));
     }
 
