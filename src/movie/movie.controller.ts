@@ -31,7 +31,7 @@ export class MovieController {
   @HttpCode(200)
   async getAllByMovie(
     @Query() query: MyPaginationQuery,
-    @Query() movieName?: string,
+    @Query('movie_name') movieName: string,
   ): Promise<Pagination<Movie>> {
     return await this.movieService.getAllMovie(query, movieName);
   }
