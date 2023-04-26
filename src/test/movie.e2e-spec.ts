@@ -100,8 +100,12 @@ describe('영화 조회/생성/수정/삭제 테스트', () => {
     );
 
     // Then
+    const body = response.body;
 
-    console.log(response.body);
+    expect(response.statusCode).toBe(HttpStatus.NOT_FOUND);
+    expect(body.code).toBe(MOVIE_EXCEPTION.MOVIE_NAME_NOT_FOUND.code);
+    expect(body.status).toBe(MOVIE_EXCEPTION.MOVIE_NAME_NOT_FOUND.status);
+    expect(body.message).toBe(MOVIE_EXCEPTION.MOVIE_NAME_NOT_FOUND.message);
   });
 
   describe('특정 영화 조회', () => {
